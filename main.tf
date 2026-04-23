@@ -42,4 +42,12 @@ resource "proxmox_lxc" "test" {
     storage = "VM-Storage"
     size    = "16G"
   }
+
+  lifecycle {
+    ignore_changes = [
+      ostemplate,
+      password,
+      ssh_public_keys
+    ]
+  }
 }
