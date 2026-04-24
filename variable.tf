@@ -35,11 +35,11 @@ variable "os_image" {
 variable "proxmox_node_name" {
   type        = string
   description = "Name of the Proxmox node within the cluster where the VM will be deployed."
-  default = "proxmoxHost"
+  default     = "proxmoxHost"
 }
 
 variable "proxmox_node_tls_insecure" {
   type        = bool
   description = "By default Proxmox Virtual Environment uses self-signed certificates."
-  default = true
+  default     = true
 }

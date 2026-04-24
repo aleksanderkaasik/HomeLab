@@ -9,7 +9,7 @@ resource "proxmox_lxc" "pki-server" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -47,7 +47,7 @@ resource "proxmox_lxc" "bind9" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -85,7 +85,7 @@ resource "proxmox_lxc" "mysql" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -123,7 +123,7 @@ resource "proxmox_lxc" "vaultwarden" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -161,7 +161,7 @@ resource "proxmox_lxc" "wordpress" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -188,7 +188,6 @@ resource "proxmox_lxc" "wordpress" {
   }
 }
 
-
 resource "proxmox_lxc" "pterodactyl-panel" {
   target_node     = var.proxmox_node_name
   hostname        = "pterodactyl-panel"
@@ -200,7 +199,7 @@ resource "proxmox_lxc" "pterodactyl-panel" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -238,7 +237,7 @@ resource "proxmox_lxc" "pterodactyl-wing" {
   memory          = 8192
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -276,7 +275,7 @@ resource "proxmox_lxc" "zabbix-server" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -314,7 +313,7 @@ resource "proxmox_lxc" "nextcloud" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -341,7 +340,6 @@ resource "proxmox_lxc" "nextcloud" {
   }
 }
 
-
 resource "proxmox_lxc" "nginx-reverse" {
   target_node     = var.proxmox_node_name
   hostname        = "reverse"
@@ -353,7 +351,7 @@ resource "proxmox_lxc" "nginx-reverse" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
@@ -391,7 +389,7 @@ resource "proxmox_lxc" "haproxy" {
   memory          = 4096
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
-  onboot = true
+  onboot          = true
 
   network {
     name     = "eth0"
