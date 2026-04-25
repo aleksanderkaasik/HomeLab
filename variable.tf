@@ -43,3 +43,34 @@ variable "proxmox_node_tls_insecure" {
   description = "By default Proxmox Virtual Environment uses self-signed certificates."
   default     = true
 }
+
+variable "dns_zones" {
+  type        = map(string)
+  description = "A mapping of domain names or network ranges to DNS zones. Used to determine where forward and reverse DNS records should be created."
+  default = {
+    "test"        = "test.home."
+    "192.168.1.0" = "1.168.192.in-addr.arpa.",
+  }
+}
+
+variable "dns_server_host" {
+  type        = string
+  description = "Hostname or IP address of the DNS server that will receive dynamic DNS updates."
+}
+
+variable "tsig_key_name" {
+  type        = string
+  description = "Name of the TSIG key used to authenticate dynamic DNS update requests."
+}
+
+variable "tsig_key_algorithm" {
+  type        = string
+  description = "Algorithm used by the TSIG key for signing DNS update requests (e.g. hmac-sha256)."
+  default     = "hmac-sha256"
+}
+
+variable "tsig_key_secret" {
+  type        = string
+  description = "Base64-encoded secret associated with the TSIG key used for secure DNS updates."
+  sensitive   = true
+}
