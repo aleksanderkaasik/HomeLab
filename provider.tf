@@ -4,6 +4,7 @@ terraform {
       source  = "Telmate/proxmox"
       version = "3.0.2-rc05"
     }
+    
     dns = {
       source  = "hashicorp/dns"
       version = "3.4.3"
