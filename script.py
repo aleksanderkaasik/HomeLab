@@ -22,6 +22,9 @@ content =json.loads(open("terraform.tfstate", "r").read())
 
 vmidList = []
 for x in range( len( content["resources"] )):
+    if content["resources"][x]["type"] != "proxmox_lxc":
+        continue
+    
     print(f"\n[{content['resources'][x]['name']}]")
     for y in range( len( content["resources"][x]["instances"] )):
         vmID = content["resources"][x]["instances"][y]["attributes"]["vmid"]
