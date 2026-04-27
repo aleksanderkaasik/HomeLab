@@ -8,8 +8,14 @@ These playbooks are designed to run on Ubuntu 24.04 LXC containers hosted on Pro
 
 Before getting started, make sure you have
 
-* **Cloudflare API token**
+* **Software**
+  * Ansible
+  * Terraform
+  * Python
+
+* **Cloudflare API tokens**
   * `Zone` - `SSL and Certificates` with `Read` and `Write` permissions to all or specific zone/s
+  * `Zone` - `DNS` with `Read` and `Write` permissions to all or specific zone/s
     
 * **Python dependency**
   ```bash
@@ -35,13 +41,14 @@ Edit the `hosts` file and add your homelab servers, including
 
 ### 3) Configure Variables
 
-Update the variables in
-
-```
-variables/main.yml
-```
+Modifies variables files in the `variables/`
 
 Make sure all values match your environment.
+
+``` shell
+cp credentials.example credentials.auto.tfvars
+```
+Then edit `credentials.auto.tfvars` file with your proxmox credential.
 
 ### 4) Running the Playbooks
 
