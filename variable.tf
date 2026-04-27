@@ -53,6 +53,18 @@ variable "dns_zones" {
   }
 }
 
+variable "cloudflare_dns_api_token" {
+  type = string
+  default = "API token"
+}
+
+variable "zones" {
+  type = map(string)
+  default = {
+    "zone" = "id"
+  }
+}
+
 variable "dns_server_host" {
   type        = string
   description = "Hostname or IP address of the DNS server that will receive dynamic DNS updates."
@@ -74,3 +86,4 @@ variable "tsig_key_secret" {
   description = "Base64-encoded secret associated with the TSIG key used for secure DNS updates."
   sensitive   = true
 }
+

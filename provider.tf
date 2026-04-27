@@ -8,6 +8,11 @@ terraform {
       source  = "hashicorp/dns"
       version = "3.4.3"
     }
+
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "5.15.0"
+    }
   }
 }
 
@@ -25,4 +30,16 @@ provider "dns" {
     key_algorithm = var.tsig_key_algorithm
     key_secret    = var.tsig_key_secret
   }
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_dns_api_token
+}
+
+data "http" "my_ip" {
+  url = "https://ifconfig.me/ip"
+}
+
+locals {
+  home_ip = trimspace(data.http.my_ip.response_body)
 }
