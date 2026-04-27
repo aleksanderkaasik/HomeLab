@@ -54,8 +54,9 @@ variable "dns_zones" {
 }
 
 variable "cloudflare_dns_api_token" {
-  type = string
-  default = "API token"
+  type        = string
+  description = "API token used by Terraform to authenticate with Cloudflare and manage DNS records programmatically. It should have permissions for the required DNS zones."
+  sensitive   = true
 }
 
 variable "zones" {
@@ -63,16 +64,19 @@ variable "zones" {
   default = {
     "zone" = "id"
   }
+  description = "A mapping of domain names to their corresponding Cloudflare Zone IDs. This allows Terraform to know which Cloudflare zone to target when creating or updating DNS records."
 }
 
 variable "dns_server_host" {
   type        = string
   description = "Hostname or IP address of the DNS server that will receive dynamic DNS updates."
+  default     = "a.b.c.d"
 }
 
 variable "tsig_key_name" {
   type        = string
   description = "Name of the TSIG key used to authenticate dynamic DNS update requests."
+  default     = "tsig"
 }
 
 variable "tsig_key_algorithm" {
