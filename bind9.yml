@@ -22,19 +22,17 @@
           };
 
           acl internal {
-            {% for cidr in cidr_allowed_access_list %}
+          {% for cidr in cidr_allowed_access_list %}
             {{ cidr }};
-            {% endfor %}
-          };
+          {% endfor %}};
 
           options {
             directory "/var/cache/bind";
 
             forwarders {
-              {% for forwarder in forwarders %}
-              {{ forwarder }};
-              {% endfor %}
-            };
+            {% for forwarder in forwarders %}
+            {{ forwarder }};
+            {% endfor %}};
 
             dnssec-validation auto;
             allow-query { internal; };

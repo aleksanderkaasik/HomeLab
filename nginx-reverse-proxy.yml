@@ -44,12 +44,12 @@
       ansible.builtin.copy:
         content: |
           {
-            {% for zone in cloudflare.zones | dict2items %}
+          {% for zone in cloudflare.zones | dict2items %}
             "{{ zone.key }}": {
             "id": "{{ zone.value.id }}",
             "sub-domains": [{% for site in zone.value.sites %}"{{ site.sub }}"{% if not loop.last %},{% endif %}{% endfor %}]
             }{% if not loop.last %},{% endif %}
-            {% endfor %}
+          {% endfor %}
           }
         dest: /var/CloudFlare-Origin-SSL-checker/zoneConfig.json
         owner: ansible
