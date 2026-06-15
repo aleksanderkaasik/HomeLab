@@ -259,6 +259,12 @@
         group: www-data
         recurse: true
 
+    - name: Schedule backup script
+      become: true
+      ansible.builtin.cron:
+        name: "pterodactyl schedule"
+        job: php /var/www/pterodactyl/artisan schedule:run >> /dev/null 2>&1
+
     - name: Configure Pterodactyl systemd service
       become: true
       ansible.builtin.copy:
@@ -288,6 +294,13 @@
         group: root
         mode: "0755"
       notify: Restart daemon reload
+
+    - name: Restart Pterodactyl
+      become: true
+      ansible.builtin.service:
+        name: pteroq.service
+        state: started
+        enabled: true
 
     - name: Installing ssl cert for https connection
       ansible.builtin.include_tasks: tasks/adding-ssl-cert.yml
