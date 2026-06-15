@@ -4,6 +4,11 @@
   vars_files:
     - variables/system/user.yml
   tasks:
+    - name: Set timezone
+      become: true
+      community.general.timezone:
+        name: Europe/Tallinn
+
     - name: Update caches
       become: true
       ansible.builtin.apt:
