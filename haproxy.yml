@@ -24,16 +24,15 @@
             mode tcp
             tcp-request inspect-delay 5s
 
-            {% for traffic in traffics %}acl is_{{ traffic.name }} payload(4,{{ traffic.domain | length + 1 }}) -m sub {{ traffic.domain }}
-            {% endfor %}
+          {% for traffic in traffics %}
+            acl is_{{ traffic.name }} payload(4,{{ traffic.domain | length + 1 }}) -m sub {{ traffic.domain }}
+          {% endfor %}
 
-            tcp-request content accept if {% for traffic in traffics %}
-            is_{{ traffic.name }}{% if not loop.last %} or {% endif %}
-            {% endfor %}
+            tcp-request content accept if {% for traffic in traffics %} is_{{ traffic.name }}{% if not loop.last %} or {% endif %} {% endfor %}
 
-            {% for traffic in traffics %}
+          {% for traffic in traffics %}
             use_backend {{ traffic.name }}_backend if is_{{ traffic.name }}
-            {% endfor %}
+          {% endfor %}
 
           {% for traffic in traffics %}
           backend {{ traffic.name }}_backend
