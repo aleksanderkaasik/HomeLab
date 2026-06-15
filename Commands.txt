@@ -1,0 +1,9 @@
+# --- Pterodactyl Panel users generations user --- #
+Email=""
+UserName=""
+NameFirst=""
+NameLast=""
+Password=""
+IsAdmin=2 #1 = yes / 2 = no
+
+sudo php artisan p:user:make --email=$Email --username=$UserName --name-first=$NameFirst --name-last=$NameLast --password=$Password --admin=$IsAdmin
