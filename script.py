@@ -9,6 +9,7 @@ proxmoxHost = ""
 username = ""
 password = ""
 node = ""
+PrintMode = ""
 
 ticketUrl = f"{proxmoxHost}/api2/json/access/ticket"
 payload = {"username": username, "password": password}
@@ -25,7 +26,6 @@ for x in range( len( content["resources"] )):
     if content["resources"][x]["type"] != "proxmox_lxc":
         continue
     
-    print(f"\n[{content['resources'][x]['name']}]")
     for y in range( len( content["resources"][x]["instances"] )):
         vmID = content["resources"][x]["instances"][y]["attributes"]["vmid"]
         configUrl = f"{proxmoxHost}/api2/json/nodes/{node}/lxc/{vmID}/config" 
@@ -40,4 +40,13 @@ for x in range( len( content["resources"] )):
         config = responseConfig.json()["data"]["hostname"]
         ipAdresss = responseInterfaces.json()["data"][1]["ip-addresses"][0]["ip-address"]
         
-        print(f"\"{ipAdresss}\"")
+        match PrintMode.lower():
+            case "ip":
+                answer=f"\"{ipAdresss}\""
+            case "ssh":
+                answer=f"    HostName {ipAdresss}\n    User ansible\n    Port 22\n    IdentityFile ~/.ssh/ansible"
+            case _:
+                exit()
+
+        print(f"\n[{content['resources'][x]['name']}]")
+        print(answer)
