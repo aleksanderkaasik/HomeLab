@@ -233,8 +233,8 @@ resource "proxmox_lxc" "pterodactyl-wing" {
   password        = var.proxmox_vm_password
   unprivileged    = true
   start           = true
-  cores           = 2
-  memory          = 8192
+  cores           = 4
+  memory          = 16384
   tags            = "production;ubuntu"
   ssh_public_keys = var.public_ssh_key
   onboot          = true
@@ -248,6 +248,7 @@ resource "proxmox_lxc" "pterodactyl-wing" {
 
   features {
     nesting = true
+    keyctl = true
   }
 
   rootfs {
