@@ -6,7 +6,7 @@ These playbooks are designed to run on Ubuntu 24.04 LXC containers hosted on Pro
 
 ## Prerequisites
 
-Before getting started, make sure you have
+Before getting started, make sure you have on your management computer.
 
 * **Software**
   * Ansible
@@ -14,12 +14,14 @@ Before getting started, make sure you have
   * Python
 
 * **Cloudflare API tokens**
-  * `Zone` - `SSL and Certificates` with `Read` and `Write` permissions to all or specific zone/s
-  * `Zone` - `DNS` with `Read` and `Write` permissions to all or specific zone/s
-    
+  * First api token: `Zone` - `SSL and Certificates` with `Read` and `Write` permissions to all or specific zone/s
+  * Second api token: `Zone` - `DNS` with `Read` and `Write` permissions to all or specific zone/s
+
+* **Proxmox api**
+
 * **Python dependency**
   ```bash
-  pip install passlib # To configure password to users
+  pip install passlib # To configure password to users for ansible
   ```
 
 ## Getting Started
@@ -27,30 +29,44 @@ Before getting started, make sure you have
 ### 1) Clone the Repository
 
 ```bash
-git clone https://github.com/aleksanderkaasik/ansible-homelab.git
+git clone https://github.com/aleksanderkaasik/HomeLab
 cd ansible-homelab
 ```
 
-### 2) Configure Hosts
+### 2) Configure Variables
 
-Edit the `hosts` file and add your homelab servers, including
+Modifies variables files in the `variables/` directory
 
-> Note:  
-> `ip_address` and `domain_name` are required for web appliavtions and generating SSL certifications  
-> And for `uuid`, `token_id` and `token` varaibles that needs pterodactyl panel to geneeate them
-
-### 3) Configure Variables
-
-Modifies variables files in the `variables/`
-
-Make sure all values match your environment.
+Create an terraform variable
 
 ``` shell
 cp credentials.example credentials.auto.tfvars
 ```
-Then edit `credentials.auto.tfvars` file with your proxmox credential.
+Then edit `credentials.auto.tfvars` file with your proxmox server credential.
 
-### 4) Running the Playbooks
+### 3) Setup the instance for the lab 
+
+Initialize terraform with modules and addons
+``` bash
+terraform init
+```
+
+Applying terraform to generate infrastructure, with vms dns records
+``` bash
+terraform apply
+```
+
+### 4) Configure Hosts
+
+After running terraform code to set up instance homelab infrastructure, then run a script to generate hosts for ansible hosts file, first edit the `script.py` add credential for the proxmox, and output mode.
+
+Then run script
+
+``` bash
+python script.py > hosts.ini
+```
+
+### 5) Running the Playbooks
 
 * ### *Option 1)* Run everything at once
 
