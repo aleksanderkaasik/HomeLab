@@ -1,21 +1,11 @@
 ---
 ip_address: "{{ ansible_default_ipv4.address }}"
-domain_name:
+domain_name: 
 
 database:
   engine: mysql
-  host:
-  port:
+  host: "{{ mysql.address }}"
+  port: "{{ mysql.port }}"
   name: 
-  user:
-  password:
-
-admin:
-  user:
-  password:
-
-trusted_domains: []
-  # - 127.0.0.1
-  # - localhost
-  # - "{{ ip_address }}"
-  # - "{{ domain_name }}"
+  user: 
+  password: 

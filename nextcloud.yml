@@ -28,7 +28,6 @@
           # Security
           - libmagickcore-6.q16-6-extra
 
-
     - name: Enable apache
       become: true
       ansible.builtin.service:
@@ -144,58 +143,9 @@
           "{{ database.name }}.*:ALL"
         state: present
 
-    - name: Check if Nextcloud is already installed
-      become: true
-      ansible.builtin.stat:
-        path: "/var/www/nextcloud/config/config.php"
-      register: nextcloud_config
-
-    - name: Generating config file and database
-      ansible.builtin.command: >
-        sudo -u www-data php occ maintenance:install
-        --database "{{ database.engine }}"
-        --database-host "{{ database.host }}"
-        --database-port "{{ database.port }}"
-        --database-name "{{ database.name }}"
-        --database-user "{{ database.user }}"
-        --database-pass "{{ database.password }}"
-        --admin-user "{{ admin.user }}"
-        --admin-pass "{{ admin.password }}"
-      args:
-        chdir: "/var/www/nextcloud"
-      when: not nextcloud_config.stat.exists
-      changed_when: false
-
-
-    - name: Create Empty directory
-      become: true
-      ansible.builtin.file:
-        state: directory
-        dest: /var/www/nextcloud/core/skeleton/empty
-        owner: www-data
-        group: www-data
-        mode: "755"
-      notify: Remove Demo files
-
-    - name: Setting trusted domains
-      ansible.builtin.command: >
-        sudo -u www-data php occ config:system:set trusted_domains "{{ trusted_domains_index }}" --value="{{ item }}"
-      args:
-        chdir: "/var/www/nextcloud"
-      loop: "{{ trusted_domains }}"
-      loop_control:
-        index_var: trusted_domains_index
-      changed_when: false
-
   handlers:
     - name: Restart Apache2
       become: true
       ansible.builtin.service:
         name: apache2
         state: restarted
-
-    - name: Remove Demo files
-      ansible.builtin.command: >
-        sudo -u www-data php occ config:app:set name skeletondirectory --value "/var/www/nextcloud/core/skeleton/empty"
-      args:
-        chdir: "/var/www/nextcloud"
