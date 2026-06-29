@@ -308,7 +308,7 @@ resource "proxmox_lxc" "nextcloud" {
   hostname        = "nextcloud"
   ostemplate      = var.os_image
   password        = var.proxmox_vm_password
-  unprivileged    = true
+  unprivileged    = false
   start           = true
   cores           = 2
   memory          = 4096
