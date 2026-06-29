@@ -71,7 +71,7 @@
                86400       ; Retry
              2419200       ; Expire
               604800       ; Negative Cache TTL
-          )
+          );
           @       IN      NS      ns.{{ item }}.
           ns      IN      A       {{ ansible_default_ipv4.address }}
         dest: /var/lib/bind/{{ item }}
@@ -92,8 +92,9 @@
                86400 ; Retry
              2419200 ; Expire
               604800 ; Negative Cache TTL
-          )
-          @       IN       NS       ns.{{ forward_zones[0] }}.
+          );
+          @       IN       NS       ns.
+          {{ ansible_default_ipv4.address.split('.')[-1] }} IN  PTR ns.{{ forward_zones[0] }}.
         dest: /var/lib/bind/{{ item }}
         owner: bind
         group: bind
