@@ -74,7 +74,7 @@ resource "dns_a_record_set" "panel" {
 
 resource "dns_ptr_record" "panel_ptr" {
   zone = var.dns_zones["192.168.1.0"]
-  name = "41"
+  name = "43"
   ptr  = dns_a_record_set.panel.id
   ttl  = 300
 }
@@ -167,6 +167,15 @@ resource "dns_a_record_set" "zombiepack" {
 resource "dns_a_record_set" "zombiesky" {
   zone = var.dns_zones["Main"]
   name = "zombiesky"
+  addresses = [
+    "192.168.1.46"
+  ]
+  ttl = 300
+}
+
+resource "dns_a_record_set" "vanilla" {
+  zone = var.dns_zones["Main"]
+  name = "vanilla"
   addresses = [
     "192.168.1.46"
   ]
@@ -268,6 +277,16 @@ resource "cloudflare_dns_record" "zombieskypack" {
 resource "cloudflare_dns_record" "ZombieSky" {
   zone_id = var.zones["Main"]
   name    = "zombiesky"  
+  ttl     = 1
+  type    = "CNAME"
+  comment = "Domain verification record"
+  content = cloudflare_dns_record.Main_origin.name
+  proxied = false
+}
+
+resource "cloudflare_dns_record" "Vanilla" {
+  zone_id = var.zones["Main"]
+  name    = "vanilla"  
   ttl     = 1
   type    = "CNAME"
   comment = "Domain verification record"
