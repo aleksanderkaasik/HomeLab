@@ -11,16 +11,9 @@ resource "dns_a_record_set" "proxmox" {
 resource "dns_ptr_record" "proxmox_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "253"
-  ptr  = "proxmox.kaasilius.com."
+  ptr  = dns_a_record_set.proxmox.id
   ttl  = 300
 } 
-
-resource "dns_ptr_record" "bind_ptr" {
-  zone = var.dns_zones["192.168.1.0"]
-  name = "45"
-  ptr  = "ns.kaasilius.com."
-  ttl  = 300
-}
 
 resource "dns_a_record_set" "pki" {
   zone = var.dns_zones["Main"]
@@ -34,7 +27,7 @@ resource "dns_a_record_set" "pki" {
 resource "dns_ptr_record" "pki_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "41"
-  ptr  = "pki.kaasilius.com."
+  ptr  = dns_a_record_set.pki.id
   ttl  = 300
 }
 
@@ -50,7 +43,7 @@ resource "dns_a_record_set" "vault" {
 resource "dns_ptr_record" "vault_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "52"
-  ptr  = "vault.kaasilius.com."
+  ptr  = dns_a_record_set.vault.id
   ttl  = 300
 }
 
@@ -66,7 +59,7 @@ resource "dns_a_record_set" "blog" {
 resource "dns_ptr_record" "blog_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "49"
-  ptr  = "aleksander.kaasik.blog."
+  ptr  = dns_a_record_set.blog.id
   ttl  = 300
 }
 
@@ -82,7 +75,7 @@ resource "dns_a_record_set" "panel" {
 resource "dns_ptr_record" "panel_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "41"
-  ptr  = "pki.kaasilius.com."
+  ptr  = dns_a_record_set.panel.id
   ttl  = 300
 }
 
@@ -98,7 +91,7 @@ resource "dns_a_record_set" "wing" {
 resource "dns_ptr_record" "wing_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "50"
-  ptr  = "wing.kaasilius.com."
+  ptr  = dns_a_record_set.wing.id
   ttl  = 300
 }
 
@@ -114,7 +107,7 @@ resource "dns_a_record_set" "zabbix" {
 resource "dns_ptr_record" "zabbix_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "42"
-  ptr  = "monitor.kaasilius.com."
+  ptr  = dns_a_record_set.zabbix.id
   ttl  = 300
 }
 
@@ -130,23 +123,7 @@ resource "dns_a_record_set" "cloud" {
 resource "dns_ptr_record" "cloud_ptr" {
   zone = var.dns_zones["192.168.1.0"]
   name = "3"
-  ptr  = "cloud.kaasilius.com."
-  ttl  = 300
-}
-
-resource "dns_a_record_set" "dbtest" {
-  zone = var.dns_zones["Main"]
-  name = "dbtest"
-  addresses = [
-    "192.168.1.4"
-  ]
-  ttl = 300
-}
-
-resource "dns_ptr_record" "dbtestptr" {
-  zone = var.dns_zones["192.168.1.0"]
-  name = "4"
-  ptr  = "dbtest.kaasilius.com."
+  ptr  = dns_a_record_set.cloud.id
   ttl  = 300
 }
 
