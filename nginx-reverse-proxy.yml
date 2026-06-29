@@ -1,8 +1,8 @@
 ---
 - name: Running Nginx Reverse Proxy Playbook
-  hosts: nginx
+  hosts: nginx-reverse
   vars_files:
-    - variables/config/nginx-reverse.yml
+    - variables/config/nginx-reverse-proxy.yml
     - variables/system/certificate.yml
   tasks:
     - name: Installing nginx
@@ -46,7 +46,7 @@
           {
           {% for zone in cloudflare.zones | dict2items %}
             "{{ zone.key }}": {
-            "id": "{{ zone.value.id }}",
+            "id":  "{{ zone.value.id }}",
             "sub-domains": [{% for site in zone.value.sites %}"{{ site.sub }}"{% if not loop.last %},{% endif %}{% endfor %}]
             }{% if not loop.last %},{% endif %}
           {% endfor %}
