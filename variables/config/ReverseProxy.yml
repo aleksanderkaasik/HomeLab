@@ -1,0 +1,5 @@
+---
+# ReverseProxyConfig: []
+#   - DomainName:
+#     RedirectHttpsIsEnabled:
+#     path: "https://"
