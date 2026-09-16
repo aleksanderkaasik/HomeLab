@@ -199,7 +199,17 @@ resource "cloudflare_dns_record" "cloud" {
   type    = "CNAME"
   comment = "Domain verification record"
   content = cloudflare_dns_record.Main_origin.name
-  proxied = true
+  proxied = false
+}
+
+resource "cloudflare_dns_record" "vault" {
+  zone_id = var.zones["Main"]
+  name    = "vault"
+  ttl     = 1
+  type    = "CNAME"
+  comment = "Domain verification record"
+  content = cloudflare_dns_record.Main_origin.name
+  proxied = false
 }
 
 resource "cloudflare_dns_record" "gamepanel" {
@@ -209,7 +219,7 @@ resource "cloudflare_dns_record" "gamepanel" {
   type    = "CNAME"
   comment = "Domain verification record"
   content = cloudflare_dns_record.Main_origin.name
-  proxied = true
+  proxied = false
 }
 
 resource "cloudflare_dns_record" "blog_origin" {
@@ -229,7 +239,7 @@ resource "cloudflare_dns_record" "MainBlog" {
   type    = "CNAME"
   comment = "Domain verification record"
   content = cloudflare_dns_record.blog_origin.name
-  proxied = true
+  proxied = false
 }
 
 resource "cloudflare_dns_record" "wing" {
@@ -241,7 +251,6 @@ resource "cloudflare_dns_record" "wing" {
   content = cloudflare_dns_record.Main_origin.name
   proxied = false
 }
-
 
 resource "cloudflare_dns_record" "aero_test" {
   zone_id = var.zones["Main"]
