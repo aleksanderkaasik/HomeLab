@@ -45,7 +45,7 @@ data "http" "my_ip" {
 
 data "external" "lxc_vmids" {
   program = [
-    "bash", "${path.module}/scripts/Getting_IP_OR_VMID_From_Proxmox.sh",
+    "bash", "${path.module}/scripts/getting_ip_or_vmid_from_proxmox.sh",
     "${var.proxmox_host}",
     "${var.proxmox_api_token_id}",
     "${var.proxmox_api_token_secret}",
@@ -57,7 +57,7 @@ data "external" "ips" {
   for_each = toset([for id in local.lxc_vmids : tostring(id)])
 
   program = [
-    "bash", "${path.module}/scripts/Getting_IP_OR_VMID_From_Proxmox.sh",
+    "bash", "${path.module}/scripts/getting_ip_or_vmid_from_proxmox.sh",
     "${var.proxmox_host}",
     "${var.proxmox_api_token_id}",
     "${var.proxmox_api_token_secret}",
