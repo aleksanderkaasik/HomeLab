@@ -1,8 +1,8 @@
 ---
 - name: Running HAProxy Playbook
-  hosts:
+  hosts: haproxy_reverse_proxy
   vars_files:
-    - variables/config/haproxy.yml
+    - variables/config/haproxy_reverse_proxy.yml
   tasks:
     - name: Install HAProxy
       become: true

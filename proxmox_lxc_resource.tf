@@ -1,4 +1,4 @@
-resource "proxmox_lxc" "pki-server" {
+resource "proxmox_lxc" "pki" {
   target_node     = var.proxmox_node_name
   hostname        = "pki-server"
   ostemplate      = var.os_image
@@ -189,7 +189,7 @@ resource "proxmox_lxc" "wordpress" {
   }
 }
 
-resource "proxmox_lxc" "pterodactyl-panel" {
+resource "proxmox_lxc" "pterodactyl_panel" {
   target_node     = var.proxmox_node_name
   hostname        = "pterodactyl-panel"
   ostemplate      = var.os_image
@@ -227,7 +227,7 @@ resource "proxmox_lxc" "pterodactyl-panel" {
   }
 }
 
-resource "proxmox_lxc" "pterodactyl-wing" {
+resource "proxmox_lxc" "pterodactyl_wing" {
   target_node     = var.proxmox_node_name
   hostname        = "pterodactyl-wing"
   ostemplate      = var.os_image
@@ -266,7 +266,7 @@ resource "proxmox_lxc" "pterodactyl-wing" {
   }
 }
 
-resource "proxmox_lxc" "zabbix-server" {
+resource "proxmox_lxc" "zabbix" {
   target_node     = var.proxmox_node_name
   hostname        = "zabbix-server"
   ostemplate      = var.os_image
@@ -350,9 +350,9 @@ resource "proxmox_lxc" "nextcloud" {
   }
 }
 
-resource "proxmox_lxc" "nginx-reverse" {
+resource "proxmox_lxc" "nginx_reverse_proxy" {
   target_node     = var.proxmox_node_name
-  hostname        = "reverse"
+  hostname        = "nginx-reverse-proxy"
   ostemplate      = var.os_image
   password        = var.proxmox_vm_password
   unprivileged    = true
@@ -388,9 +388,9 @@ resource "proxmox_lxc" "nginx-reverse" {
   }
 }
 
-resource "proxmox_lxc" "haproxy" {
+resource "proxmox_lxc" "haproxy_reverse_proxy" {
   target_node     = var.proxmox_node_name
-  hostname        = "haproxy"
+  hostname        = "haproxy-reverse-proxy"
   ostemplate      = var.os_image
   password        = var.proxmox_vm_password
   unprivileged    = true

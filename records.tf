@@ -19,14 +19,14 @@ resource "dns_a_record_set" "pki" {
   zone = var.dns_zones["Main"]
   name = "pki"
   addresses = [
-    local.ips[tostring(proxmox_lxc.pki-server.vmid)]
+    local.ips[tostring(proxmox_lxc.pki.vmid)]
   ]
   ttl = 300
 }
 
 resource "dns_ptr_record" "pki_ptr" {
   zone = var.dns_zones["192.168.1.0"]
-  name = split(".", local.ips[tostring(proxmox_lxc.pki-server.vmid)])[3]
+  name = split(".", local.ips[tostring(proxmox_lxc.pki.vmid)])[3]
   ptr  = dns_a_record_set.pki.id
   ttl  = 300
 }
@@ -67,14 +67,14 @@ resource "dns_a_record_set" "panel" {
   zone = var.dns_zones["Main"]
   name = "game-panel"
   addresses = [
-    local.ips[tostring(proxmox_lxc.pterodactyl-panel.vmid)]
+    local.ips[tostring(proxmox_lxc.pterodactyl_panel.vmid)]
   ]
   ttl = 300
 }
 
 resource "dns_ptr_record" "panel_ptr" {
   zone = var.dns_zones["192.168.1.0"]
-  name = split(".", local.ips[tostring(proxmox_lxc.pterodactyl-panel.vmid)])[3]
+  name = split(".", local.ips[tostring(proxmox_lxc.pterodactyl_panel.vmid)])[3]
   ptr  = dns_a_record_set.panel.id
   ttl  = 300
 }
@@ -83,14 +83,14 @@ resource "dns_a_record_set" "wing" {
   zone = var.dns_zones["Main"]
   name = "wing"
   addresses = [
-    local.ips[tostring(proxmox_lxc.pterodactyl-wing.vmid)]
+    local.ips[tostring(proxmox_lxc.pterodactyl_wing.vmid)]
   ]
   ttl = 300
 }
 
 resource "dns_ptr_record" "wing_ptr" {
   zone = var.dns_zones["192.168.1.0"]
-  name = split(".", local.ips[tostring(proxmox_lxc.pterodactyl-wing.vmid)])[3]
+  name = split(".", local.ips[tostring(proxmox_lxc.pterodactyl_wing.vmid)])[3]
   ptr  = dns_a_record_set.wing.id
   ttl  = 300
 }
@@ -99,14 +99,14 @@ resource "dns_a_record_set" "zabbix" {
   zone = var.dns_zones["Main"]
   name = "monitor"
   addresses = [
-    local.ips[tostring(proxmox_lxc.zabbix-server.vmid)]
+    local.ips[tostring(proxmox_lxc.zabbix.vmid)]
   ]
   ttl = 300
 }
 
 resource "dns_ptr_record" "zabbix_ptr" {
   zone = var.dns_zones["192.168.1.0"]
-  name = split(".", local.ips[tostring(proxmox_lxc.zabbix-server.vmid)])[3]
+  name = split(".", local.ips[tostring(proxmox_lxc.zabbix.vmid)])[3]
   ptr  = dns_a_record_set.zabbix.id
   ttl  = 300
 }
@@ -131,7 +131,7 @@ resource "dns_a_record_set" "aero_test" {
   zone = var.dns_zones["Main"]
   name = "aerotest"
   addresses = [
-    local.ips[tostring(proxmox_lxc.haproxy.vmid)]
+    local.ips[tostring(proxmox_lxc.haproxy_reverse_proxy.vmid)]
   ]
   ttl = 300
 }
@@ -140,7 +140,7 @@ resource "dns_a_record_set" "aeropack_test" {
   zone = var.dns_zones["Main"]
   name = "aeropack"
   addresses = [
-    local.ips[tostring(proxmox_lxc.haproxy.vmid)]
+    local.ips[tostring(proxmox_lxc.haproxy_reverse_proxy.vmid)]
   ]
   ttl = 300
 }
@@ -149,7 +149,7 @@ resource "dns_a_record_set" "zombieskytest" {
   zone = var.dns_zones["Main"]
   name = "zombieskytest"
   addresses = [
-    local.ips[tostring(proxmox_lxc.haproxy.vmid)]
+    local.ips[tostring(proxmox_lxc.haproxy_reverse_proxy.vmid)]
   ]
   ttl = 300
 }
@@ -158,7 +158,7 @@ resource "dns_a_record_set" "zombiepack" {
   zone = var.dns_zones["Main"]
   name = "zombiepack"
   addresses = [
-    local.ips[tostring(proxmox_lxc.haproxy.vmid)]
+    local.ips[tostring(proxmox_lxc.haproxy_reverse_proxy.vmid)]
   ]
   ttl = 300
 }
@@ -167,7 +167,7 @@ resource "dns_a_record_set" "zombiesky" {
   zone = var.dns_zones["Main"]
   name = "zombiesky"
   addresses = [
-    local.ips[tostring(proxmox_lxc.haproxy.vmid)]
+    local.ips[tostring(proxmox_lxc.haproxy_reverse_proxy.vmid)]
   ]
   ttl = 300
 }
@@ -176,7 +176,7 @@ resource "dns_a_record_set" "vanilla" {
   zone = var.dns_zones["Main"]
   name = "vanilla"
   addresses = [
-    local.ips[tostring(proxmox_lxc.haproxy.vmid)]
+    local.ips[tostring(proxmox_lxc.haproxy_reverse_proxy.vmid)]
   ]
   ttl = 300
 }

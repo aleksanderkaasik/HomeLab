@@ -2,7 +2,7 @@
 # ip_address:
 # domain_name:
 
-# app:
+# pterodactyl_app:
 #   env:
 #   debug:
 #   key:
@@ -12,7 +12,7 @@
 #   locale:
 #   environment_only:
 
-# database:
+# pterodactyl_database:
 #   engine:
 #   host:
 #   port:
@@ -20,11 +20,11 @@
 #   user:
 #   password:
 
-# RemoteAdminDatabase:
-#   Username:
-#   Password:
+# remote_admin_database:
+#   username:
+#   password:
 
-# redis:
+# pterodactyl_redis:
 #   host:
 #   port:
 #   password:

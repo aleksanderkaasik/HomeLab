@@ -1,10 +1,10 @@
 ---
 - name: Running Pterodactyl Wing Playbook
-  hosts:
+  hosts: pterodactyl-wing
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
-    - variables/config/pterodactyl-wing.yml
+    - variables/config/pterodactyl_wing.yml
   tasks:
     - name: Install dependency
       become: true

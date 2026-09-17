@@ -1,6 +1,6 @@
 ---
 - name: MySQL server
-  hosts:
+  hosts: mysql
   vars_files:
     - variables/config/mysql.yml
   tasks:
@@ -35,8 +35,8 @@
       community.mysql.mysql_user:
         login_user: root
         login_unix_socket: /var/run/mysqld/mysqld.sock
-        name: "{{ Username }}"
-        password: "{{ Password }}"
+        name: "{{ mysql_username }}"
+        password: "{{ mysql_password }}"
         host: "{{ mysql_host }}"
         priv: "{{ privileges }}"
         state: present

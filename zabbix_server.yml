@@ -1,10 +1,10 @@
 ---
 - name: Running Zabbix Server Playbook
-  hosts:
+  hosts: zabbix
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
-    - variables/config/zabbix-server.yml
+    - variables/config/zabbix_server.yml
   tasks:
     - name: Install Zabbix repository
       become: true
@@ -44,12 +44,12 @@
     - name: Create Zabbix database
       become: true
       community.mysql.mysql_db:
-        name: "{{ database.name }}"
+        name: "{{ zabbix_database.name }}"
         state: present
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password}}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password}}"
+        login_host: "{{ zabbix_database.host }}"
+        login_port: "{{ zabbix_database.port }}"
         encoding: utf8mb4
         collation: utf8mb4_bin
       notify: Import Zabbix Database Dump
@@ -57,24 +57,24 @@
     - name: Create MySQL users
       become: true
       community.mysql.mysql_user:
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password}}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password}}"
+        login_host: "{{ zabbix_database.host }}"
+        login_port: "{{ zabbix_database.port }}"
         column_case_sensitive: true
-        name: "{{ database.user }}"
-        password: "{{ database.password }}"
+        name: "{{ zabbix_database.user }}"
+        password: "{{ zabbix_database.password }}"
         host: "%"
         priv:
-          "{{ database.name }}.*:ALL"
+          "{{ zabbix_database.name }}.*:ALL"
         state: present
 
     - name: Select query to test_db with named_args
       community.mysql.mysql_query:
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ zabbix_database.host }}"
+        login_port: "{{ zabbix_database.port }}"
         query: SET GLOBAL log_bin_trust_function_creators = 1;
 
     - name: Configuring locale
@@ -104,23 +104,23 @@
         line: "{{ item.option }}={{ item.value }}"
       notify: Restart Zabbix Server
       loop:
-        - { option: DBHost, value: "{{ database.host }}" }
-        - { option: DBPort, value: "{{ database.port }}" }
-        - { option: DBName, value: "{{ database.name }}" }
-        - { option: DBUser, value: "{{ database.user }}" }
-        - { option: DBPassword, value: "{{ database.password }}" }
+        - { option: DBHost, value: "{{ zabbix_database.host }}" }
+        - { option: DBPort, value: "{{ zabbix_database.port }}" }
+        - { option: DBName, value: "{{ zabbix_database.name }}" }
+        - { option: DBUser, value: "{{ zabbix_database.user }}" }
+        - { option: DBPassword, value: "{{ zabbix_database.password }}" }
 
   handlers:
     - name: Import Zabbix Database Dump
       become: true
       community.mysql.mysql_db:
-        name: "{{ database.name }}"
+        name: "{{ zabbix_database.name }}"
         state: import
         target: /usr/share/zabbix/sql-scripts/mysql/server.sql.gz
-        login_user: "{{ database.user }}"
-        login_password: "{{ database.password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ zabbix_database.user }}"
+        login_password: "{{ zabbix_database.password }}"
+        login_host: "{{ zabbix_database.host }}"
+        login_port: "{{ zabbix_database.port }}"
 
     - name: Restart Zabbix Server
       become: true

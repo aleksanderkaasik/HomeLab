@@ -1,10 +1,10 @@
 ---
 - name: Running PKI Server Playbook
-  hosts:
+  hosts: pki
   vars_files:
     - variables/system/user.yml
     - variables/system/certificate.yml
-    - variables/config/pki-server.yml
+    - variables/config/pki.yml
   tasks:
     - name: Install needed dependencies
       become: true

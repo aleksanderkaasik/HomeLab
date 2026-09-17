@@ -1,6 +1,6 @@
 ---
 - name: Running NextCloud Playbook
-  hosts:
+  hosts: nextcloud
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
@@ -66,26 +66,26 @@
     - name: Create NextCloud database
       become: true
       community.mysql.mysql_db:
-        name: "{{ database.name }}"
+        name: "{{ nextcloud_database.name }}"
         state: present
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ nextcloud_database.host }}"
+        login_port: "{{ nextcloud_database.port }}"
         encoding: utf8mb4
         collation: utf8mb4_bin
 
     - name: Create MySQL users
       become: true
       community.mysql.mysql_user:
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ nextcloud_database.host }}"
+        login_port: "{{ nextcloud_database.port }}"
         column_case_sensitive: true
-        name: "{{ database.user }}"
-        password: "{{ database.password }}"
+        name: "{{ nextcloud_database.user }}"
+        password: "{{ nextcloud_database.password }}"
         host: "%"
         priv:
-          "{{ database.name }}.*:ALL"
+          "{{ nextcloud_database.name }}.*:ALL"
         state: present

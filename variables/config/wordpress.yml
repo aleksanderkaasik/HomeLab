@@ -2,7 +2,7 @@
 # ip_address:
 # domain_name:
 
-# database:
+# wordpress_database:
 #   engine:
 #   host:
 #   port:
@@ -10,11 +10,11 @@
 #   user:
 #   password:
 
-# RemoteAdminDatabase:
-#   Username:
-#   Password:
+# remote_admin_database:
+#   username:
+#   password:
 
-# multisiteIsEnabled: false
+# multisite_is_enabled: false
 
 # # https://api.wordpress.org/secret-key/1.1/salt/
 # auth_key:

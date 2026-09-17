@@ -1,6 +1,6 @@
 ---
 - name: Running WordPress Playbook
-  hosts:
+  hosts: wordpress
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
@@ -45,26 +45,26 @@
     - name: Create WordPress database
       become: true
       community.mysql.mysql_db:
-        name: "{{ database.name }}"
+        name: "{{ wordpress_database.name }}"
         state: present
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ wordpress_database.host }}"
+        login_port: "{{ wordpress_database.port }}"
 
     - name: Create WordPress users
       become: true
       community.mysql.mysql_user:
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ wordpress_database.host }}"
+        login_port: "{{ wordpress_database.port }}"
         column_case_sensitive: true
-        name: "{{ database.user }}"
-        password: "{{ database.password }}"
+        name: "{{ wordpress_database.user }}"
+        password: "{{ wordpress_database.password }}"
         host: "%"
         priv:
-          "{{ database.name }}.*:ALL"
+          "{{ wordpress_database.name }}.*:ALL"
         state: present
 
     - name: Running Apache2 role
@@ -103,16 +103,16 @@
         content: |
           <?php
           /** The name of the database for WordPress */
-          define( 'DB_NAME', '{{ database.name }}' );
+          define( 'DB_NAME', '{{ wordpress_database.name }}' );
 
           /** Database username */
-          define( 'DB_USER', '{{ database.user }}' );
+          define( 'DB_USER', '{{ wordpress_database.user }}' );
 
           /** Database password */
-          define( 'DB_PASSWORD', '{{ database.password }}' );
+          define( 'DB_PASSWORD', '{{ wordpress_database.password }}' );
 
           /** Database hostname */
-          define( 'DB_HOST', '{{ database.host }}:{{ database.port }}' );
+          define( 'DB_HOST', '{{ wordpress_database.host }}:{{ wordpress_database.port }}' );
 
           /** Database charset to use in creating database tables. */
           define( 'DB_CHARSET', 'utf8mb4' );

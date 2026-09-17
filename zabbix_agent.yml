@@ -2,7 +2,7 @@
 - name: Running Zabbix Agent 2 Playbook
   hosts: all
   vars_files:
-    - variables/config/zabbix-agent.yml
+    - variables/config/zabbix_agent.yml
   tasks:
     - name: Install Zabbix repository
       become: true

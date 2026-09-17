@@ -2,7 +2,7 @@
 # ip_address:
 # domain_name: 
 
-# database:
+# vaultwarden_database:
 #   engine:
 #   host:
 #   port:
@@ -10,8 +10,8 @@
 #   user:
 #   password:
 
-# RemoteAdminDatabase:
-#   Username:
-#   Password:
+# remote_admin_database:
+#   username:
+#   password:
 
 # vaultadmin:

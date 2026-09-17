@@ -6,16 +6,19 @@ import socket
 # Disable insecure warnings (optional)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-proxmoxHost = ""
+modes = ["host", "ssh"]
+
+proxmox_mod = ""
 username = ""
 password = ""
 node = ""
-PrintMode = ""
-   
-if PrintMode not in ["host", "ssh"]:
+# use list in modes variable
+print_mode = ""
+
+if print_mode not in modes:
     exit()
     
-ticketUrl = f"https://{proxmoxHost}:8006/api2/json/access/ticket"
+ticketUrl = f"https://{proxmox_mod}:8006/api2/json/access/ticket"
 payload = {"username": username, "password": password}
 
 responseTicket = requests.post(ticketUrl, data=payload, verify=False)
@@ -33,8 +36,8 @@ for x in range( len( content["resources"] )):
     for y in range( len( content["resources"][x]["instances"] )):
         answer = ""
         vmID = content["resources"][x]["instances"][y]["attributes"]["vmid"]
-        configUrl = f"https://{proxmoxHost}:8006/api2/json/nodes/{node}/lxc/{vmID}/config" 
-        interfaceUrl = f"https://{proxmoxHost}:8006/api2/json/nodes/{node}/lxc/{vmID}/interfaces"
+        configUrl = f"https://{proxmox_mod}:8006/api2/json/nodes/{node}/lxc/{vmID}/config" 
+        interfaceUrl = f"https://{proxmox_mod}:8006/api2/json/nodes/{node}/lxc/{vmID}/interfaces"
         
         responseConfig = requests.get(configUrl, cookies=cookies, verify=False)
         responseInterfaces = requests.get(interfaceUrl, cookies=cookies, verify=False)
@@ -52,7 +55,7 @@ for x in range( len( content["resources"] )):
         
         host = content["resources"][x]["name"]
 
-        match PrintMode.lower():
+        match print_mode.lower():
             case "host":
                 if y == 0:
                     print(f"\n[{host}]")

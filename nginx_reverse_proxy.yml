@@ -1,8 +1,8 @@
 ---
 - name: Running Nginx Reverse Proxy Playbook
-  hosts:
+  hosts: nginx_reverse_proxy
   vars_files:
-    - variables/config/NginxReverseProxy.yml
+    - variables/config/nginx_reverse_proxy.yml
     - variables/system/certificate.yml
   tasks:
     - name: Installing nginx, certbot and nginx plugin
@@ -28,8 +28,8 @@
         content: |
           server {
             listen 80;
-            server_name {{ item.DomainName }};
-          {% if item.RedirectHttpsIsEnabled %}
+            server_name {{ item.domain }};
+          {% if item.redirect_https_is_enabled %}
             return 301 https://$server_name$request_uri;
           {% else %}
             location / {
@@ -41,29 +41,29 @@
           
           server {
             listen 443 ssl http2;
-            server_name {{ item.DomainName }};
+            server_name {{ item.domain }};
 
-            ssl_certificate /etc/letsencrypt/live/{{ item.DomainName }}/fullchain.pem;
-            ssl_certificate_key /etc/letsencrypt/live/{{ item.DomainName }}/privkey.pem;
+            ssl_certificate /etc/letsencrypt/live/{{ item.domain }}/fullchain.pem;
+            ssl_certificate_key /etc/letsencrypt/live/{{ item.domain }}/privkey.pem;
 
             location / {
                 proxy_pass {{ item.path }};
                 include proxy_params;
             }
           }
-        dest: "/etc/nginx/sites-enabled/{{ item.DomainName }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.domain }}.conf"
         owner: root
         group: root
         mode: "0644"
-      loop: "{{ ReverseProxyConfig }}"
+      loop: "{{ reverse_proxy_config }}"
       notify: Restart nginx
 
     - name: Generate SSL certificates
       become: true
-      ansible.builtin.shell: certbot certonly --nginx -d {{ item.DomainName }} --non-interactive --agree-tos --register-unsafely-without-email
+      ansible.builtin.shell: certbot certonly --nginx -d {{ item.domain }} --non-interactive --agree-tos --register-unsafely-without-email
       args:
-        creates: "/etc/letsencrypt/live/{{ item.DomainName }}/"
-      loop: "{{ ReverseProxyConfig }}"
+        creates: "/etc/letsencrypt/live/{{ item.domain }}/"
+      loop: "{{ reverse_proxy_config }}"
       notify: Restart nginx   
 
     - name: Getting list of Certbot Certificates
@@ -74,7 +74,7 @@
     - name: Delete unused Certbot Certificates
       become: true
       ansible.builtin.shell: certbot delete --cert-name {{ item }} --non-interactive --agree-tos --register-unsafely-without-email
-      when: item in (ReverseProxyConfig | map(attribute='DomainName') | list)
+      when: item in (reverse_proxy_config | map(attribute='domain') | list)
       loop: "{{ CertbotCertificates.stdout_lines }}"
 
     - name: Getting list of Nginx site configs
@@ -87,7 +87,7 @@
       ansible.builtin.file:
         state: "absent"
         path: "/etc/nginx/sites-enabled/{{ item }}"
-      when: item in (ReverseProxyConfig | map(attribute='DomainName') | list)
+      when: item in (reverse_proxy_config | map(attribute='domain') | list)
       loop: "{{ nginxSites.stdout_lines }}"
 
     - name: Configure automatic certificate renewal

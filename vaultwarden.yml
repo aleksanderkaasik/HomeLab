@@ -1,6 +1,6 @@
 ---
 - name: Running VaultWarden Playbook
-  hosts:
+  hosts: vaultwarden
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
@@ -21,26 +21,26 @@
     - name: Create VaultWarden database
       become: true
       community.mysql.mysql_db:
-        name: "{{ database.name }}"
+        name: "{{ vaultwarden_database.name }}"
         state: present
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ vaultwarden_database.host }}"
+        login_port: "{{ vaultwarden_database.port }}"
 
     - name: Create VaultWarden users
       become: true
       community.mysql.mysql_user:
-        login_user: "{{ RemoteAdminDatabase.Username }}"
-        login_password: "{{ RemoteAdminDatabase.Password }}"
-        login_host: "{{ database.host }}"
-        login_port: "{{ database.port }}"
+        login_user: "{{ remote_admin_database.username }}"
+        login_password: "{{ remote_admin_database.password }}"
+        login_host: "{{ vaultwarden_database.host }}"
+        login_port: "{{ vaultwarden_database.port }}"
         column_case_sensitive: true
-        name: "{{ database.user }}"
-        password: "{{ database.password }}"
+        name: "{{ vaultwarden_database.user }}"
+        password: "{{ vaultwarden_database.password }}"
         host: "%"
         priv:
-          "{{ database.name }}.*:ALL"
+          "{{ vaultwarden_database.name }}.*:ALL"
         state: present
 
     - name: Create VaultWarden directory
@@ -63,7 +63,7 @@
               container_name: vaultwarden
               restart: unless-stopped
               environment:
-                DATABASE_URL: "{{ database.engine }}://{{ database.user }}:{{ database.password }}@{{ database.host }}:{{ database.port }}/{{ database.name }}"
+                DATABASE_URL: "{{ vaultwarden_database.engine }}://{{ vaultwarden_database.user }}:{{ vaultwarden_database.password }}@{{ vaultwarden_database.host }}:{{ vaultwarden_database.port }}/{{ vaultwarden_database.name }}"
                 ROCKET_TLS: '{certs="/etc/ssl/certs/{{ public_key }}", key="/etc/ssl/private/{{ private_key }}"}'
                 ADMIN_TOKEN: '{{ vaultadmin }}'
               volumes:
