@@ -13,10 +13,10 @@
           - python3-pymysql
 
     - name: Import Docker install task
-      ansible.builtin.include_tasks: tasks/docker-install.yml
+      ansible.builtin.include_tasks: tasks/docker_install.yml
 
     - name: SSL certificate request generator
-      ansible.builtin.include_tasks: tasks/adding-ssl-cert.yml
+      ansible.builtin.include_tasks: tasks/adding_ssl_cert.yml
 
     - name: Create VaultWarden database
       become: true

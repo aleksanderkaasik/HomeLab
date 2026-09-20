@@ -1,6 +1,6 @@
 ---
 - name: Running Pterodactyl Wing Playbook
-  hosts: pterodactyl-wing
+  hosts: pterodactyl_wing
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
@@ -13,7 +13,7 @@
           - curl
 
     - name: Import Docker install playbook
-      ansible.builtin.include_tasks: tasks/docker-install.yml
+      ansible.builtin.include_tasks: tasks/docker_install.yml
 
     - name: Download Pterodactyl Wings binary
       become: true
@@ -32,7 +32,7 @@
         mode: "0640"
 
     - name: Installing ssl cert for https connection
-      ansible.builtin.include_tasks: tasks/adding-ssl-cert.yml
+      ansible.builtin.include_tasks: tasks/adding_ssl_cert.yml
 
     - name: Add pterodactyl directory
       become: true

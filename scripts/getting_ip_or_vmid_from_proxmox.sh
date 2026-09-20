@@ -28,5 +28,5 @@ else
       ."ip-address"'
   )
 
-  jq -n --arg ip "$ip_address" '{"ip": $ip_address}'
+  jq -n --arg ip_address "$ip_address" '{"ip": $ip_address}'
 fi

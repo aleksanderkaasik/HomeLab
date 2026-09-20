@@ -1,6 +1,6 @@
 ---
 - name: Running Pterodactyl Panel Playbook
-  hosts: pterodactyl-panel
+  hosts: pterodactyl_panel
   vars_files:
     - variables/system/url.yml
     - variables/system/certificate.yml
@@ -223,7 +223,7 @@
         COMPOSER_ALLOW_SUPERUSER: "1"
 
     - name: Import NodeJS Install
-      ansible.builtin.include_tasks: tasks/nodejs-install.yml
+      ansible.builtin.include_tasks: tasks/nodejs_install.yml
 
     - name: Install Yarn globally using npm
       become: true

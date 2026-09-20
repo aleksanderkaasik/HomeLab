@@ -50,7 +50,7 @@
   notify: Restart Apache2
 
 - name: SSL certificate request generator
-  ansible.builtin.include_tasks: tasks/adding-ssl-cert.yml
+  ansible.builtin.include_tasks: tasks/adding_ssl_cert.yml
   when: IsHttpsEnabled | bool
 
 - name: Disable default Apache site
