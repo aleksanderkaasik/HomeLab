@@ -35,3 +35,12 @@ sudo -u www-data php occ maintenance:install
     --database-pass $DatabasePassword
     --admin-user $AdminUser
     --admin-pass $AdminPassowrd
+
+# --- Use admin powershell with these commands
+Set-Content -Path C:\ca.crt -Encoding Byte -Value (Invoke-WebRequest -uri http://pki.test.loc:3004/get-ca -ContentType "application/json").Content
+Import-Certificate -FilePath "C:\ca.crt" -CertStoreLocation Cert:\LocalMachine\Root
+
+
+# --- sudo is need for these commands on ubuntu
+curl https://pki.test.loc:3004/get-ca -o /usr/local/share/ca-certificates/PersonalCa.crt
+update-ca-certificates
