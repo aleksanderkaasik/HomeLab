@@ -2,17 +2,17 @@ terraform {
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
-      version = "3.0.2-rc05"
+      version = "3.0.2-rc10"
     }
 
     dns = {
       source  = "hashicorp/dns"
-      version = "3.4.3"
+      version = "3.6.2"
     }
 
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "5.15.0"
+      version = "5.25.0"
     }
   }
 }
