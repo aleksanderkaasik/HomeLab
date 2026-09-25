@@ -6,7 +6,7 @@ import socket
 # Disable insecure warnings (optional)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-modes = ["host", "ssh"]
+modes = ["host", "ssh", "nick"]
 
 proxmox_host = ""
 username = ""
@@ -54,6 +54,7 @@ for x in range( len( content["resources"] )):
             hostname = ipAdresss
         
         host = content["resources"][x]["name"]
+        nick = content['resources'][x]['instances'][y]['attributes']['hostname']
 
         match print_mode.lower():
             case "host":
@@ -63,5 +64,10 @@ for x in range( len( content["resources"] )):
 
             case "ssh":
                 answer = f"Host {host}\n    HostName {hostname}\n    User ansible\n    Port 22\n    IdentityFile ~/.ssh/ansible"
+                
+            case "nick":
+                if y == 0:
+                    print(f"\n[{host}]")
+                answer = f"{nick} ansible_host={hostname}"
 
         print(answer)
