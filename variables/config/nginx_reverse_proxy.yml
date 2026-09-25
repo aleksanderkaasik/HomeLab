@@ -3,3 +3,6 @@
 #   - domain:
 #     redirect_https_is_enabled:
 #     path:
+#     redirects:
+#       - from: /url-end-point
+#         to: /w
